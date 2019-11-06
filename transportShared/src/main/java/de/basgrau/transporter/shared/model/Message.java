@@ -13,6 +13,7 @@ public class Message  implements Serializable {
     private String sender;
     private String senddate;
     private byte[] filedata;
+    private String fileid;
 
     public String getSender() {
         return sender;
@@ -36,6 +37,14 @@ public class Message  implements Serializable {
 
     public void setFiledata(byte[] filedata) {
         this.filedata = filedata;
+    }
+
+    public String getFileid() {
+        return fileid;
+    }
+
+    public void setFileid(String fileid) {
+        this.fileid = fileid;
     }
 
 }
