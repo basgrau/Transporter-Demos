@@ -5,16 +5,13 @@ import java.util.Date;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import de.basgrau.transporter.shared.model.Message;
 
@@ -31,16 +28,42 @@ public class UseCase3Controller {
     @Consumes(MediaType.APPLICATION_JSON)
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
-//TODO
-        byte[] file = message.getFiledata();
+        if (DBUtil.createDBTable()) {
+            System.out.println("created DB-Table.");
+        } else {
+            return "404";
+        }
 
-        // Send to 2005
-        final Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-        Response response = client.target(Constants.BASE_WEB_TARGET).path(Constants.BASE_UC3_PATH).request()
-                .post(Entity.entity(message, MediaType.APPLICATION_JSON));
+        if (DBUtil.insert(message)) {
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return "200";
+        } else {
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return "404";
+        }
+    }
 
+    @GET
+    @Path("{id}")
+    public Response getBlob(@PathParam("id") String id) {
+        System.out.println(sdf.format(new Date()) + ": START");
+        System.out.println("Abruf durch 2008 für id: " + id);
+        byte[] blob = DBUtil.getBlob(id);
         System.out.println(sdf.format(new Date()) + ": ENDE");
-        return "200";
+        return Response.ok(blob).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public String deleteMessage(@PathParam("id") String id) {
+        System.out.println("DELETE durch 2008.");
+        if (DBUtil.updateAbgerufen(id)) {
+            return "200";
+        } else {
+            // TODO: Eskalation müsste dann geschaffen werden.
+            System.err.println("Status der Message "+id+" konnte nicht auf 'abgerufen' gesetzt werden!");
+            return "405";
+        }
     }
 
     @GET

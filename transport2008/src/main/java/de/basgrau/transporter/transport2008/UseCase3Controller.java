@@ -25,12 +25,19 @@ public class UseCase3Controller {
     @Consumes(MediaType.APPLICATION_JSON)
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
-//TODO
-        byte[] file = message.getFiledata();
+        if (DBUtil.createDBTableUC3()) {
+            System.out.println("created DB-Table.");
+        } else {
+            return "404";
+        }
 
-        System.out.println("done...");
-        System.out.println(sdf.format(new Date()) + ": ENDE");
-        return "200";
+        if (DBUtil.insertUC3(message)) {
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return "200";
+        } else {
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return "404";
+        }
     }
 
     @GET

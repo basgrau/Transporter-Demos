@@ -32,15 +32,19 @@ public class UseCase1Controller {
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
 
-        byte[] file = message.getFiledata();
-
         // Send to 2005
         final Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
         Response response = client.target(Constants.BASE_WEB_TARGET).path(Constants.BASE_UC1_PATH).request()
         .post(Entity.entity(message, MediaType.APPLICATION_JSON));
+        String result = response.readEntity(String.class);
 
-        System.out.println(sdf.format(new Date()) + ": ENDE");
-        return "200";
+        if(result.equals("200")){
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return "200";
+        }else{
+            System.out.println(sdf.format(new Date()) + ": ENDE");
+            return result;
+        }
     }
 
     @GET

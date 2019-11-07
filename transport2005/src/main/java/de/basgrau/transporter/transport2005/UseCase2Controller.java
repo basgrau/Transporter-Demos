@@ -31,9 +31,7 @@ public class UseCase2Controller {
     @Consumes(MediaType.APPLICATION_JSON)
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
-
         System.out.println("File-ID:" +message.getFileid());
-
         // Send to 2005
         final Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
         Response response = client.target(Constants.BASE_WEB_TARGET).path(Constants.BASE_UC2_PATH).request()

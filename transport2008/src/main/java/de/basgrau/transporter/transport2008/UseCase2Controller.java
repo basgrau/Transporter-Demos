@@ -25,12 +25,8 @@ public class UseCase2Controller {
     @Consumes(MediaType.APPLICATION_JSON)
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
-
         System.out.println("File-ID:" +message.getFileid());
-       
-        byte[] data = DBUtil.getBlob(message.getFileid());
-        
-        System.out.println("done...");
+        System.out.println("Komplette Kette durchlaufen...");
         System.out.println(sdf.format(new Date()) + ": ENDE");
         return "200";
     }

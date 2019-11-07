@@ -1,6 +1,7 @@
 package de.basgrau.transporter.transport2008;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.inject.Singleton;
@@ -27,6 +28,8 @@ public class UseCase1Controller {
         System.out.println(sdf.format(new Date()) + ": START");
 
         byte[] file = message.getFiledata();
+
+        System.out.println(new String(file));
 
         System.out.println("done...");
         System.out.println(sdf.format(new Date()) + ": ENDE");

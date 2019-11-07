@@ -2,8 +2,6 @@ package de.basgrau.transporter.shared.model;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Message
  */

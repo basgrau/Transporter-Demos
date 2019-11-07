@@ -32,16 +32,15 @@ public class UseCase2Controller {
     public String receive(Message message) {
         System.out.println(sdf.format(new Date()) + ": START");
 
-        if (DBUtil.createDBTable()) {
+        if (DBUtil.createDBTable(DBUtil.UC2)) {
             System.out.println("created DB-Table.");
         }
 
-        boolean success = DBUtil.writeClob(message);
+        boolean success = DBUtil.writeClob(DBUtil.UC2, message);
 
         if (success) {
-            // save file to db and get id for 2005
             message.setFiledata(null);
-            int id = DBUtil.getId(message.getSenddate());
+            int id = DBUtil.getId(DBUtil.UC2, message.getSenddate());
             System.out.println("FileId: " + id);
             message.setFileid(""+id);
 
@@ -50,10 +49,18 @@ public class UseCase2Controller {
             Response response = client.target(Constants.BASE_WEB_TARGET).path(Constants.BASE_UC2_PATH).request()
                     .post(Entity.entity(message, MediaType.APPLICATION_JSON));
 
-            System.out.println(sdf.format(new Date()) + ": ENDE");
-            return "200";
+            String result = response.readEntity(String.class);
+
+            if(result.equals("200")){
+                System.out.println(sdf.format(new Date()) + ": ENDE");
+                return "200";
+            }else{
+                System.out.println(sdf.format(new Date()) + ": ENDE");
+                return result;
+            }
         } else {
             System.err.println("Konnte nicht in DB geschrieben werden!");
+            System.out.println(sdf.format(new Date()) + ": ENDE");
             return "404";
         }
     }
