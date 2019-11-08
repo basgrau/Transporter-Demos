@@ -1,9 +1,7 @@
 # Transporter-Demos
  Demos different ways to transport files through webservices.
 
-
-![GitHub](https://img.shields.io/github/license/basgrau/Transport-Demos)
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 ![Twitter Follow](https://img.shields.io/twitter/follow/b_st1?style=social)
 ## Use Cases
 
