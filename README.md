@@ -1,3 +1,4 @@
+
 # Transporter-Demos
  Demos different ways to transport files through webservices.
 
@@ -19,7 +20,6 @@
 * trade-offs:
     * transport2005 can't verify if message is "complete"
     * transport2008 can't verify if correct file is referenced
-
 
 #### Use Case 2b (optional|TODO)
 Same as above, only that transport2002 and transport2005 share DB_Table_1 and transport2005 and transport 2008 share DB_Table_2. 
